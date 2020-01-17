@@ -59,6 +59,7 @@ function websocketConnect() {
     ws.onopen = function () {
         console.log("Connection open.");
         $("#channelName").text("Channel: "+channel);
+        $("#orgName").text("Organization: "+org);
     }
     ws.onmessage = function (data) {
         const evt = JSON.parse(data.data);
