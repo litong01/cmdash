@@ -81,6 +81,7 @@ func main() {
 	http.HandleFunc("/update", handler.Update)
 	http.HandleFunc("/info", handler.Info)
 	http.HandleFunc("/decode/update", handler.DecodeUpdate)
+	http.HandleFunc("/endpoint/query", handler.Download)
 
 	fmt.Printf("\nserver running on http://localhost:%s\n\n", port)
 	panic(http.ListenAndServe(":"+port, nil))
@@ -310,6 +311,31 @@ func (h *Handler) Query(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(resp.Payload)
+}
+
+func (h *Handler) Download(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "failed to read body: %v", err)
+		return
+	}
+	var c call
+	if err := json.Unmarshal(body, &c); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "failed to decode body: %v", err)
+		return
+	}
+
+	resp, err := ioutil.ReadFile(string(c.Args[0]))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "failed to read file: %v", err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/x-yaml")
+	w.WriteHeader(http.StatusOK)
+	w.Write(resp)
 }
 
 var upgrader = websocket.Upgrader{

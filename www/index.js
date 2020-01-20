@@ -346,6 +346,27 @@ function downloadProposal(id) {
     });
 }
 
+function downloadOrdererEndpoints(id) {
+    setAlert("Downloading Orderer Endpoints...")
+    $.ajax({
+        url: "endpoint/query",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            function: "download",
+            args: ["/cmdash/orderendpoints.yaml"],
+        }),
+        success: function (data) {
+            setAlert();
+            console.log("download", id, data);
+            downloadFile(data, "ordererendpoints.yaml");
+        },
+        error: function (err) {
+            setAlert(err);
+        },
+    });
+}
+
 function applyUpdate(id) {
     const proposal = state[id];
     setAlert("Applying channel update...")
@@ -378,6 +399,23 @@ function applyUpdate(id) {
 function download(info, filename) {
     const c = JSON.stringify(info);
     const file = new Blob([c], { type: 'text/json' });
+
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(file);
+
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+
+    setTimeout(function () {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }, 0);
+}
+
+function downloadFile(info, filename) {
+    const file = new Blob([info], { type: 'text/plain' });
 
     const a = document.createElement('a');
     const url = URL.createObjectURL(file);

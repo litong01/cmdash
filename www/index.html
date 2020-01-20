@@ -27,6 +27,9 @@ SPDX-License-Identifier: Apache-2.0
 	<div class="container-fluid">
 		<nav>
 			<div class="nav nav-tabs" id="nav-tab" role="tablist">
+				<a class="nav-item nav-link" id="nav-joinreq-tab" data-toggle="tab" href="#nav-joinreq" role="tab"
+				aria-controls="nav-joinreq" aria-selected="true">Organization Artifacts</a>
+
 				<a class="nav-item nav-link active" id="nav-proposals-tab" data-toggle="tab" href="#nav-proposals"
 					role="tab" aria-controls="nav-proposals" aria-selected="false">Proposals</a>
 			</div>
@@ -39,6 +42,12 @@ SPDX-License-Identifier: Apache-2.0
 			<span id="alert-text"></span>
 		</div>
 		<div class="tab-content" id="nav-tabContent">
+			<div class="tab-pane fade" id="nav-joinreq" role="tabpanel" aria-labelledby="nav-joinreq-tab">
+				<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary" onclick="downloadOrdererEndpoints('0')">
+					Download orderer endpoint file
+				</button>
+			</div>
 			<div class="tab-pane fade show active" id="nav-proposals" role="tabpanel"
 				aria-labelledby="nav-proposals-tab">
 				<div class="row">
