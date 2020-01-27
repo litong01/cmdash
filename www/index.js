@@ -386,9 +386,6 @@ function applyUpdate(id) {
         }),
         success: function (data) {
             setAlert("Success");
-            setTimeout(function () {
-                deleteProposal(id, true);
-            }, 2500)
         },
         error: function (err) {
             setAlert(err);
