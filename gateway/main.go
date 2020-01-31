@@ -37,6 +37,7 @@ var (
 	userKey           string
 	userCert          string
 	org               string
+	mspid             string
 	channelID         string
 	chaincodeID       string
 )
@@ -69,6 +70,7 @@ func main() {
 		panic(err)
 	}
 
+	mspid = user.Identifier().MSPID
 	handler, err := NewHandler(sdk, org, user, channelID, chaincodeID)
 	if err != nil {
 		panic(err)
@@ -403,9 +405,11 @@ func (h *Handler) Info(w http.ResponseWriter, r *http.Request) {
 	resp, err := json.Marshal(&struct {
 		Org     string `json:"org"`
 		Channel string `json:"channel"`
+		MSPID   string `json:"mspid"`
 	}{
 		Org:     org,
 		Channel: channelID,
+		MSPID:   mspid,
 	})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

@@ -5,12 +5,14 @@
 let upload;
 let state = {};
 let org;
+let mspid;
 let channel;
 
 $(function () {
     $.get("info", function (data) {
         console.log("info", data);
         org = data.org;
+        mspid = data.mspid;
         channel = data.channel;
     });
     document.getElementById("upload").addEventListener("change", readFile);
@@ -98,8 +100,8 @@ function generateOrgContent(id) {
         c += `<a class="btn btn-primary text-white" onclick="sign('${id}', '${update.config_update}')">Sign</a> `
     }
     c += `<a class="btn btn-secondary text-white" onclick="downloadProposal('${id}')">Download</a> `
-    if (update.creator === org || update.creator == org.replace(/\./g, "")) {
-        c += `<a class="btn btn-success text-white" onclick="applyUpdate('${id}')">Apply</a> `
+    c += `<a class="btn btn-success text-white" onclick="applyUpdate('${id}')">Apply</a> `
+    if (update.creator === mspid) {
         c += `<a class="btn btn-danger text-white" onclick="deleteProposal('${id}')">Delete</a> `
     }
     c += `</div>` // close actions
