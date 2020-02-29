@@ -348,8 +348,8 @@ function downloadProposal(id) {
     });
 }
 
-function downloadOrdererEndpoints(id) {
-    setAlert("Downloading Orderer Endpoints...")
+function downloadEndpoints(id) {
+    setAlert("Downloading Node Endpoints...")
     $.ajax({
         url: "endpoint/query",
         type: "POST",
