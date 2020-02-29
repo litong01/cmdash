@@ -356,12 +356,12 @@ function downloadOrdererEndpoints(id) {
         contentType: "application/json",
         data: JSON.stringify({
             function: "download",
-            args: ["/cmdash/orderendpoints.yaml"],
+            args: ["/cmdash/endpoints.yaml"],
         }),
         success: function (data) {
             setAlert();
             console.log("download", id, data);
-            downloadFile(data, "ordererendpoints.yaml");
+            downloadFile(data, "extendpoints.yaml");
         },
         error: function (err) {
             setAlert(err);
